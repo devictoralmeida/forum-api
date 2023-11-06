@@ -4,10 +4,8 @@ node_modules
 .editorconfig
 .eslint
 .eslintignore
-.npmrc
 dist
 build
 tmp/*
-!tmp/.gitkeep
 coverage
 package-lock.json
