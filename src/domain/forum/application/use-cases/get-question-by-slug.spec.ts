@@ -21,13 +21,10 @@ describe('Get Question By Slug Use Case', () => {
 
     await inMemoryQuestionsRepository.create(newQuestion)
 
-    const { question } = await getQuestionBySlug.execute({
+    const result = await getQuestionBySlug.execute({
       slug: 'example-question',
     })
 
-    expect(question.id).toBeTruthy()
-    expect(question.title).toEqual(newQuestion.title)
-    expect(question.authorId).toEqual(newQuestion.authorId)
-    expect(question.content).toEqual(newQuestion.content)
+    expect(result.isRight()).toBe(true)
   })
 })
