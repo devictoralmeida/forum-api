@@ -8,6 +8,6 @@ export interface AnswersRepository {
     params: PaginationParams,
   ): Promise<Answer[]>
   delete(answer: Answer): Promise<void>
-  create(answer: Answer): Promise<void>
+  create(answer: Answer): Promise<Answer>
   save(answer: Answer): Promise<Answer>
 }
