@@ -1,27 +1,33 @@
 /* eslint-disable @typescript-eslint/adjacent-overload-signatures */
-import { Entity } from '@/core/entities/entity'
+import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
+import { AnswerAttachmentList } from './answer-attachment-list'
 
 export interface IAnswerProps {
   authorId: UniqueEntityID
   questionId: UniqueEntityID
   content: string
+  attachments: AnswerAttachmentList
   createdAt: Date
   updatedAt?: Date
 }
 
-export class Answer extends Entity<IAnswerProps> {
-  get content() {
-    return this.props.content
+export class Answer extends AggregateRoot<IAnswerProps> {
+  get authorId() {
+    return this.props.authorId
   }
 
   get questionId() {
     return this.props.questionId
   }
 
-  get authorId() {
-    return this.props.authorId
+  get content() {
+    return this.props.content
+  }
+
+  get attachments() {
+    return this.props.attachments
   }
 
   get createdAt() {
@@ -46,13 +52,19 @@ export class Answer extends Entity<IAnswerProps> {
     this.touch() // Atualizando o updated At
   }
 
+  set attachments(attachments: AnswerAttachmentList) {
+    this.props.attachments = attachments
+    this.touch()
+  }
+
   static create(
-    props: Optional<IAnswerProps, 'createdAt'>,
+    props: Optional<IAnswerProps, 'createdAt' | 'attachments'>,
     id?: UniqueEntityID,
   ) {
     const answer = new Answer(
       {
         ...props,
+        attachments: props.attachments ?? new AnswerAttachmentList(),
         createdAt: props.createdAt ?? new Date(),
       },
       id,
